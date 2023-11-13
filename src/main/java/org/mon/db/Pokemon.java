@@ -1,21 +1,23 @@
 package org.mon.db;
 
-import java.util.List;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 @Entity
+//Does not work with Dev Services
+/*@NamedNativeQueries({
+        //@NamedNativeQuery(name = "Pokemon.findByTypeNative", query = "SELECT * FROM Pokemon where :type = ANY(types)", resultClass = Pokemon.class)
+})
+ */
 public class Pokemon extends PanacheEntity  {
     public String number;
     public String name;
-
-    public List<String> type;
+    public String[] types;
     public String description;
-    public List<String> weakness;
+    public String[] weaknesses;
 
     public static Pokemon findByNumber(String number) {
         return find("number", number).firstResult();
@@ -25,5 +27,11 @@ public class Pokemon extends PanacheEntity  {
         return find("name", name).firstResult();
     }
 
-    //TODO find by type. Custom query?
+    @Override
+    public String toString() {
+        return number + " " + name +
+                "\n" + "Description: " + description +
+                "\n" + "Type: " + Arrays.asList(types).stream().collect(Collectors.joining(", ")) +
+                "\n" + "Weakness: " + Arrays.asList(weaknesses).stream().collect(Collectors.joining(", "));
+    }
 }
