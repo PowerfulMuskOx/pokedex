@@ -61,7 +61,7 @@ public class PokedexResource {
         }
         else {
 
-            return "Invalid type input. Use /pokemon/listTypes endpoint to see available Pokemon types. " + TypeEnum.GRASS.name() + type.toUpperCase() ;
+            return "Invalid type input. Use /pokemon/listTypes endpoint to see available Pokemon types.";
         }
     }
 
